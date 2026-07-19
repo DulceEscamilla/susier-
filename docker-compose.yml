@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: susier-postgres
+    environment:
+      POSTGRES_USER: ${DB_USER:-susier_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-susier_password}
+      POSTGRES_DB: ${DB_NAME:-susier_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - susier_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-susier_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: susier-backend
+    environment:
+      NODE_ENV: development
+      DB_HOST: postgres
+      DB_USER: ${DB_USER:-susier_user}
+      DB_PASSWORD: ${DB_PASSWORD:-susier_password}
+      DB_NAME: ${DB_NAME:-susier_db}
+      DB_PORT: 5432
+      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - susier_network
+    command: npm run dev
+
+  # Frontend Web
+  frontend:
+    build:
+      context: ./frontend-web
+      dockerfile: Dockerfile
+    container_name: susier-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:3000
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend-web:/app
+      - /app/node_modules
+    networks:
+      - susier_network
+    command: npm run dev
+
+volumes:
+  postgres_data:
+
+networks:
+  susier_network:
+    driver: bridge
