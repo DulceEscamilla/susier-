@@ -1,0 +1,11 @@
+{
+  "root": ".",
+  "testEnvironment": "node",
+  "testMatch": ["**/__tests__/**/*.test.ts"],
+  "moduleFileExtensions": ["ts", "js"],
+  "preset": "ts-jest",
+  "collectCoverageFrom": [
+    "src/**/*.ts",
+    "!src/**/*.d.ts"
+  ]
+}

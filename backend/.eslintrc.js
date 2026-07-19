@@ -1,0 +1,16 @@
+module.exports = {
+  parser: '@typescript-eslint/parser',
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+  ],
+  env: {
+    node: true,
+    es2020: true,
+  },
+  rules: {
+    '@typescript-eslint/no-unused-vars': 'warn',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'no-console': 'off',
+  },
+};

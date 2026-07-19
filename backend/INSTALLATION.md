@@ -1,1 +1,79 @@
-# 🔌 Backend SUSIER - Guía de Instalación\n\n## 📋 Requisitos\n\n- Node.js 18+\n- PostgreSQL 14+\n- npm o yarn\n\n## 📦 Instalación\n\n### 1. Instalar dependencias\n```bash\ncd backend\nnpm install\n```\n\n### 2. Configurar variables de entorno\n```bash\ncp .env.example .env\n```\n\nEdita `.env` con tus valores:\n```env\nDB_HOST=localhost\nDB_PORT=5432\nDB_USER=susier_user\nDB_PASSWORD=susier_password\nDB_NAME=susier_db\nNODE_ENV=development\nJWT_SECRET=your-secret-key\n```\n\n### 3. Ejecutar en desarrollo\n```bash\nnpm run dev\n```\n\nEl servidor estará disponible en `http://localhost:3000`\n\n---\n\n## 🐳 Con Docker\n\n```bash\ncd ..\ndocker-compose up\n```\n\n---\n\n## 🧪 Testing\n\n```bash\n# Ejecutar tests\nnpm run test\n\n# Tests con cobertura\nnpm run test:coverage\n\n# Tests en modo watch\nnpm run test:watch\n```\n\n---\n\n## 📝 Scripts disponibles\n\n| Script | Descripción |\n|--------|-------------|\n| `npm run dev` | Iniciar servidor en desarrollo |\n| `npm run build` | Compilar TypeScript |\n| `npm start` | Iniciar servidor compilado |\n| `npm run lint` | Verificar código |\n| `npm run lint:fix` | Arreglar problemas de linting |\n| `npm run test` | Ejecutar tests |\n\n---\n\n## 🔌 Endpoints Disponibles\n\n### Autenticación\n- `POST /api/auth/register` - Registrar usuario\n- `POST /api/auth/login` - Iniciar sesión\n- `POST /api/auth/refresh` - Refrescar token\n\n### Seguridad\n- `GET /api/security/visits` - Listar visitas\n- `POST /api/security/visits` - Crear visita\n- `POST /api/security/packages` - Registrar paquete\n\n### Residente\n- `GET /api/resident/profile` - Obtener perfil\n- `POST /api/resident/authorizations` - Autorizar visita\n- `POST /api/resident/reports` - Crear reporte\n\n### Administración\n- `GET /api/admin/dashboard` - Dashboard\n- `GET /api/admin/guards/performance` - Desempeño guardias\n- `GET /api/admin/residents` - Listar residentes\n\n---\n\n**Última actualización:** 2026-07-19\n"
+# 🔌 Backend SUSIER - Guía de Instalación
+
+## 📋 Requisitos
+
+- Node.js 18+
+- PostgreSQL 14+
+- npm o yarn
+
+## 📦 Instalación
+
+### 1. Instalar dependencias
+```bash
+cd backend
+npm install
+```
+
+### 2. Configurar variables de entorno
+```bash
+cp .env.example .env
+```
+
+Edita `.env` con tus valores:
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=susier_user
+DB_PASSWORD=susier_password
+DB_NAME=susier_db
+NODE_ENV=development
+JWT_SECRET=your-secret-key
+```
+
+### 3. Ejecutar en desarrollo
+```bash
+npm run dev
+```
+
+El servidor estará disponible en `http://localhost:3000`
+
+---
+
+## 🐳 Con Docker
+
+```bash
+cd ..
+docker-compose up
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+# Ejecutar tests
+npm run test
+
+# Tests con cobertura
+npm run test:coverage
+
+# Tests en modo watch
+npm run test:watch
+```
+
+---
+
+## 📝 Scripts disponibles
+
+| Script | Descripción |
+|--------|-------------|
+| `npm run dev` | Iniciar servidor en desarrollo |
+| `npm run build` | Compilar TypeScript |
+| `npm start` | Iniciar servidor compilado |
+| `npm run lint` | Verificar código |
+| `npm run lint:fix` | Arreglar problemas de linting |
+| `npm run test` | Ejecutar tests |
+
+---
+
+**Última actualización:** 2026-07-19
