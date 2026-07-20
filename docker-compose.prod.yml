@@ -1,0 +1,62 @@
+# Production Docker Compose Override
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+version: '3.8'
+
+services:
+  postgres:
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "127.0.0.1:${DB_PORT:-5432}:5432" # Bind only to localhost
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
+        reservations:
+          cpus: '1'
+          memory: 512M
+
+  backend:
+    restart: always
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: warn
+    ports:
+      - "127.0.0.1:${BACKEND_PORT:-3000}:3000" # Bind only to localhost
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+    command: npm run build && npm start
+
+  frontend:
+    restart: always
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:3000}
+    ports:
+      - "127.0.0.1:${FRONTEND_PORT:-5173}:5173" # Bind only to localhost
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    command: npm run preview
+
+  # Remove pgadmin in production
+  pgadmin:
+    profiles:
+      - never # Disable pgadmin in production
